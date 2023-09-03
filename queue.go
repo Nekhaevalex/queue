@@ -19,7 +19,7 @@ func (queue *Queue[T]) Enqueue(item T) {
 	queue.queue = append(queue.queue, item)
 }
 
-// Dequeue item recieves error
+// Dequeue item. Returns error if no items.
 func (queue *Queue[T]) Dequeue() (T, error) {
 	queue.mutex.Lock()
 	defer func() {
@@ -34,6 +34,7 @@ func (queue *Queue[T]) Dequeue() (T, error) {
 	return empty, errors.New("no new items")
 }
 
+// Returns true if there are any items in queue
 func (queue *Queue[T]) HasItems() bool {
 	queue.mutex.Lock()
 	defer func() {
