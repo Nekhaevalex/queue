@@ -36,11 +36,14 @@ func (queue *Queue[T]) Dequeue() (T, error) {
 
 // Returns true if there are any items in queue
 func (queue *Queue[T]) HasItems() bool {
+	return !queue.IsEmpty()
+}
+
+// Returns true if there are no items in queue
+func (queue *Queue[T]) IsEmpty() bool {
 	queue.mutex.Lock()
-	defer func() {
-		queue.mutex.Unlock()
-	}()
-	return len(queue.queue) > 0
+	defer queue.mutex.Unlock()
+	return len(queue.queue) == 0
 }
 
 // Creates new queue with specified capacity and type T
